@@ -14,9 +14,8 @@ const App = () => {
   useEffect(() => {
     const fetchGithubUser = async () => {
       setLoading(true);
-      console.log(process.env.REACT_APP_GITHUB_CLIENT_SECRET);
       const { data: fetchedUsers } = await axios.get(
-        'https://api.github.com/users'
+        `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
       );
       setLoading(false);
       setUsers(fetchedUsers);
