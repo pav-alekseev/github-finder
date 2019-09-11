@@ -9,6 +9,7 @@ import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
+import About from './screens/About';
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -69,6 +70,7 @@ const App = () => {
               )}
               exact
             />
+            <Route path="/about" component={About} />
           </Switch>
         </div>
       </div>
