@@ -30,11 +30,19 @@ const App = () => {
     setLoading(false);
   };
 
+  const clearUsers = () => {
+    setUsers([]);
+  };
+
   return (
     <div className="App">
       <Navbar />
       <div className="container">
-        <Search searchUsers={searchUsers} />
+        <Search
+          searchUsers={searchUsers}
+          clearUsers={clearUsers}
+          showClear={users.length > 0}
+        />
         <Users users={users} loading={loading} />
       </div>
     </div>
