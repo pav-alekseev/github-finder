@@ -53,12 +53,12 @@ const App = () => {
       <div className="App">
         <Navbar />
         <div className="container">
-          <Alert alert={alert} hideAlert={hideAlert} />
           <Switch>
             <Route
               path="/"
               render={props => (
                 <Fragment>
+                  <Alert alert={alert} hideAlert={hideAlert} />
                   <Search
                     searchUsers={searchUsers}
                     clearUsers={clearUsers}
