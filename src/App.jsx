@@ -5,12 +5,14 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import './App.css';
 import Navbar from './components/layout/Navbar';
+import Alert from './components/layout/Alert';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
 
 const App = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   const searchUsers = async text => {
     setLoading(true);
@@ -34,14 +36,20 @@ const App = () => {
     setUsers([]);
   };
 
+  const showAlert = (message, type) => {
+    setAlert({ message, type });
+  };
+
   return (
     <div className="App">
       <Navbar />
       <div className="container">
+        <Alert alert={alert} />
         <Search
           searchUsers={searchUsers}
           clearUsers={clearUsers}
           showClear={users.length > 0}
+          showAlert={showAlert}
         />
         <Users users={users} loading={loading} />
       </div>
