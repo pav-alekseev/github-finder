@@ -38,6 +38,8 @@ const App = () => {
 
   const showAlert = (message, type) => {
     setAlert({ message, type });
+
+    setTimeout(() => setAlert(null), 5000);
   };
 
   const hideAlert = () => {
