@@ -40,11 +40,15 @@ const App = () => {
     setAlert({ message, type });
   };
 
+  const hideAlert = () => {
+    setAlert(null);
+  };
+
   return (
     <div className="App">
       <Navbar />
       <div className="container">
-        <Alert alert={alert} />
+        <Alert alert={alert} hideAlert={hideAlert} />
         <Search
           searchUsers={searchUsers}
           clearUsers={clearUsers}
