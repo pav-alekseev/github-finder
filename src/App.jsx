@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -47,19 +48,31 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <Navbar />
-      <div className="container">
-        <Alert alert={alert} hideAlert={hideAlert} />
-        <Search
-          searchUsers={searchUsers}
-          clearUsers={clearUsers}
-          showClear={users.length > 0}
-          showAlert={showAlert}
-        />
-        <Users users={users} loading={loading} />
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="container">
+          <Alert alert={alert} hideAlert={hideAlert} />
+          <Switch>
+            <Route
+              path="/"
+              render={props => (
+                <Fragment>
+                  <Search
+                    searchUsers={searchUsers}
+                    clearUsers={clearUsers}
+                    showClear={users.length > 0}
+                    showAlert={showAlert}
+                  />
+                  <Users users={users} loading={loading} />
+                </Fragment>
+              )}
+              exact
+            />
+          </Switch>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 };
 
