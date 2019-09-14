@@ -15,6 +15,7 @@ import About from './screens/About';
 const App = () => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
+  const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
@@ -45,6 +46,22 @@ const App = () => {
       );
 
       setUser(data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setLoading(false);
+  };
+
+  const getUserRepos = async login => {
+    setLoading(true);
+
+    try {
+      const { data } = await axios.get(
+        `https://api.github.com/users/${login}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret${process.env.REACT_APP_GITHUB_CLIENT_SECRET} `
+      );
+
+      setRepos(data);
     } catch (error) {
       console.error(error);
     }
