@@ -3,19 +3,23 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Spinner from '../layout/Spinner';
+import Repos from '../repos/Repos';
 
-const User = ({ getUser, user, loading, match }) => {
+const User = ({ getUser, getUserRepos, user, repos, loading, match }) => {
   const getUserCallback = useCallback(getUser, []);
+  const getUserReposCallback = useCallback(getUserRepos, []);
 
   useEffect(() => {
     getUserCallback(match.params.login);
   }, [getUserCallback, match.params.login]);
 
+  useEffect(() => {
+    getUserReposCallback(match.params.login);
+  }, [getUserReposCallback, match.params.login]);
+
   if (loading) {
     return <Spinner />;
   }
-
-  console.log(user);
 
   return (
     <Fragment>
@@ -74,12 +78,14 @@ const User = ({ getUser, user, loading, match }) => {
         </div>
         <div className="badge badge-dark">Public Gist: {user.public_gists}</div>
       </div>
+      <Repos repos={repos} />
     </Fragment>
   );
 };
 
 User.propTypes = {
   getUser: PropTypes.func.isRequired,
+  getUserRepos: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
 };

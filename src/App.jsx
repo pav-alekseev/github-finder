@@ -112,7 +112,9 @@ const App = () => {
                 <User
                   {...props}
                   getUser={getUser}
+                  getUserRepos={getUserRepos}
                   user={user}
+                  repos={repos}
                   loading={loading}
                 />
               )}
