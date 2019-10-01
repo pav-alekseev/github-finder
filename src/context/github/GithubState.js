@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
-import axios from 'axios';
+
+import GithubService from '../../api/services/github-service';
 import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
 import {
@@ -10,16 +11,6 @@ import {
   SET_LOADING,
 } from '../types';
 
-const githubClientId =
-  process.env.NODE_ENV === 'production'
-    ? process.env.GITHUB_CLIENT_ID
-    : process.env.REACT_APP_GITHUB_CLIENT_ID;
-
-const githubClientSecret =
-  process.env.NODE_ENV === 'production'
-    ? process.env.GITHUB_CLIENT_SECRET
-    : process.env.REACT_APP_GITHUB_CLIENT_SECRET;
-
 const GithubState = props => {
   const initialState = {
     users: [],
@@ -29,6 +20,7 @@ const GithubState = props => {
   };
 
   const [state, dispatch] = useReducer(GithubReducer, initialState);
+  const githubService = new GithubService();
 
   const searchUsers = async text => {
     setLoading();
@@ -36,9 +28,7 @@ const GithubState = props => {
     try {
       const {
         data: { items: users },
-      } = await axios.get(
-        `https://api.github.com/search/users?q=${text}&client_id=${githubClientId}&client_secret${githubClientSecret} `
-      );
+      } = await githubService.searchUser(text);
 
       dispatch({
         type: SEARCH_USERS,
@@ -53,9 +43,7 @@ const GithubState = props => {
     setLoading();
 
     try {
-      const { data } = await axios.get(
-        `https://api.github.com/users/${login}?client_id=${githubClientId}&client_secret${githubClientSecret} `
-      );
+      const { data } = await githubService.getUser(login);
 
       dispatch({ type: GET_USER, payload: data });
     } catch (error) {
@@ -69,9 +57,7 @@ const GithubState = props => {
     setLoading(true);
 
     try {
-      const { data } = await axios.get(
-        `https://api.github.com/users/${login}/repos?per_page=5&sort=created:asc&client_id=${githubClientId}&client_secret${githubClientSecret} `
-      );
+      const { data } = await githubService.getUserRepos(login);
 
       dispatch({
         type: GET_REPOS,
