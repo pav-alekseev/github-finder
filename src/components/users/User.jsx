@@ -1,12 +1,16 @@
-import React, { Fragment, useEffect, useCallback } from 'react';
+import React, { Fragment, useEffect, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+import GithubContext from '../../context/github/githubContext';
 
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
 
-const User = ({ getUser, getUserRepos, user, repos, loading, match }) => {
-  const getUserCallback = useCallback(getUser, []);
+const User = ({ getUserRepos, repos, match }) => {
+  const githubContext = useContext(GithubContext);
+
+  const getUserCallback = useCallback(githubContext.getUser, []);
   const getUserReposCallback = useCallback(getUserRepos, []);
 
   useEffect(() => {
@@ -17,7 +21,7 @@ const User = ({ getUser, getUserRepos, user, repos, loading, match }) => {
     getUserReposCallback(match.params.login);
   }, [getUserReposCallback, match.params.login]);
 
-  if (loading) {
+  if (githubContext.loading) {
     return <Spinner />;
   }
 
@@ -28,42 +32,49 @@ const User = ({ getUser, getUserRepos, user, repos, loading, match }) => {
       </Link>
       <div className="card grid-2">
         <div className="all-center">
-          <img src={user.avatar_url} alt="Avatar" style={{ width: '150px' }} />
-          <h1>{user.name && user.name}</h1>
-          <p>{user.location && `Location: ${user.location}`}</p>
+          <img
+            src={githubContext.user.avatar_url}
+            alt="Avatar"
+            style={{ width: '150px' }}
+          />
+          <h1>{githubContext.user.name && githubContext.user.name}</h1>
+          <p>
+            {githubContext.user.location &&
+              `Location: ${githubContext.user.location}`}
+          </p>
         </div>
         <div>
-          {user.bio && (
+          {githubContext.user.bio && (
             <Fragment>
               <h3>Bio</h3>
-              <p>{user.bio}</p>
+              <p>{githubContext.user.bio}</p>
             </Fragment>
           )}
-          <a href={user.html_url} className="btn btn-dark my-1">
+          <a href={githubContext.user.html_url} className="btn btn-dark my-1">
             Visit Github profile
           </a>
           <ul>
             <li>
-              {user.login && (
+              {githubContext.user.login && (
                 <Fragment>
                   <strong>Username: </strong>
-                  {user.login}
+                  {githubContext.user.login}
                 </Fragment>
               )}
             </li>
             <li>
-              {user.company && (
+              {githubContext.user.company && (
                 <Fragment>
                   <strong>Company: </strong>
-                  {user.company}
+                  {githubContext.user.company}
                 </Fragment>
               )}
             </li>
             <li>
-              {user.blog && (
+              {githubContext.user.blog && (
                 <Fragment>
                   <strong>Website: </strong>
-                  {user.blog}
+                  {githubContext.user.blog}
                 </Fragment>
               )}
             </li>
@@ -71,12 +82,18 @@ const User = ({ getUser, getUserRepos, user, repos, loading, match }) => {
         </div>
       </div>
       <div className="card text-center">
-        <div className="badge badge-primary">Followers: {user.followers}</div>
-        <div className="badge badge-success">Following: {user.following}</div>
-        <div className="badge badge-light">
-          Public Repos: {user.public_repos}
+        <div className="badge badge-primary">
+          Followers: {githubContext.user.followers}
         </div>
-        <div className="badge badge-dark">Public Gist: {user.public_gists}</div>
+        <div className="badge badge-success">
+          Following: {githubContext.user.following}
+        </div>
+        <div className="badge badge-light">
+          Public Repos: {githubContext.user.public_repos}
+        </div>
+        <div className="badge badge-dark">
+          Public Gist: {githubContext.user.public_gists}
+        </div>
       </div>
       <Repos repos={repos} />
     </Fragment>
@@ -84,10 +101,7 @@ const User = ({ getUser, getUserRepos, user, repos, loading, match }) => {
 };
 
 User.propTypes = {
-  getUser: PropTypes.func.isRequired,
   getUserRepos: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default User;

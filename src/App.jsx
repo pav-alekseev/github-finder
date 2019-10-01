@@ -17,26 +17,9 @@ import About from './screens/About';
 import './App.css';
 
 const App = () => {
-  const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
-  const getUser = async login => {
-    setLoading(true);
-
-    try {
-      const { data } = await axios.get(
-        `https://api.github.com/users/${login}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret${process.env.REACT_APP_GITHUB_CLIENT_SECRET} `
-      );
-
-      setUser(data);
-    } catch (error) {
-      console.error(error);
-    }
-
-    setLoading(false);
-  };
 
   const getUserRepos = async login => {
     setLoading(true);
@@ -86,14 +69,7 @@ const App = () => {
               <Route
                 path="/user/:login"
                 render={props => (
-                  <User
-                    {...props}
-                    getUser={getUser}
-                    getUserRepos={getUserRepos}
-                    user={user}
-                    repos={repos}
-                    loading={loading}
-                  />
+                  <User {...props} getUserRepos={getUserRepos} repos={repos} />
                 )}
               />
             </Switch>
