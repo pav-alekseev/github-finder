@@ -11,6 +11,7 @@ import Navbar from './components/layout/Navbar';
 import User from './components/users/User';
 import Home from './screens/Home';
 import About from './screens/About';
+import NotFound from './screens/NotFound';
 
 import './App.css';
 
@@ -25,6 +26,7 @@ const App = () => (
               <Route path="/" component={Home} exact />
               <Route path="/about" component={About} />
               <Route path="/user/:login" component={User} />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </div>
