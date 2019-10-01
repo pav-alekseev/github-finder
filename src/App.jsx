@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-import GithubState from './context/github/githubState';
+import GithubState from './context/github/GithubState';
 
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
@@ -22,24 +22,6 @@ const App = () => {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
-
-  const searchUsers = async text => {
-    setLoading(true);
-
-    try {
-      const {
-        data: { items },
-      } = await axios.get(
-        `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret${process.env.REACT_APP_GITHUB_CLIENT_SECRET} `
-      );
-
-      setUsers(items);
-    } catch (error) {
-      console.error(error);
-    }
-
-    setLoading(false);
-  };
 
   const getUser = async login => {
     setLoading(true);
@@ -100,7 +82,6 @@ const App = () => {
                   <Fragment>
                     <Alert alert={alert} hideAlert={hideAlert} />
                     <Search
-                      searchUsers={searchUsers}
                       clearUsers={clearUsers}
                       showClear={users.length > 0}
                       showAlert={showAlert}
