@@ -1,26 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+
+import GithubContext from '../../context/github/githubContext';
 
 import UserItem from './UserItem';
 import Spinner from '../layout/Spinner';
 
-const Users = ({ users, loading }) => {
-  if (loading) {
+const Users = () => {
+  const githubContext = useContext(GithubContext);
+
+  if (githubContext.loading) {
     return <Spinner />;
   }
 
   return (
     <div className="grid-3">
-      {users.map(user => (
+      {githubContext.users.map(user => (
         <UserItem user={user} key={user.id} />
       ))}
     </div>
   );
-};
-
-Users.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default Users;

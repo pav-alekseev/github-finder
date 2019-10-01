@@ -86,7 +86,7 @@ const App = () => {
                       showClear={users.length > 0}
                       showAlert={showAlert}
                     />
-                    <Users users={users} loading={loading} />
+                    <Users />
                   </Fragment>
                 )}
                 exact
