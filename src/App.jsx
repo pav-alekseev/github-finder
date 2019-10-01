@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import GithubState from './context/github/GithubState';
+import AlertState from './context/alert/AlertState';
 
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
@@ -15,21 +16,9 @@ import About from './screens/About';
 
 import './App.css';
 
-const App = () => {
-  const [alert, setAlert] = useState(null);
-
-  const showAlert = (message, type) => {
-    setAlert({ message, type });
-
-    setTimeout(() => setAlert(null), 5000);
-  };
-
-  const hideAlert = () => {
-    setAlert(null);
-  };
-
-  return (
-    <GithubState>
+const App = () => (
+  <GithubState>
+    <AlertState>
       <Router>
         <div className="App">
           <Navbar />
@@ -39,8 +28,8 @@ const App = () => {
                 path="/"
                 render={props => (
                   <Fragment>
-                    <Alert alert={alert} hideAlert={hideAlert} />
-                    <Search showAlert={showAlert} />
+                    <Alert />
+                    <Search />
                     <Users />
                   </Fragment>
                 )}
@@ -52,8 +41,8 @@ const App = () => {
           </div>
         </div>
       </Router>
-    </GithubState>
-  );
-};
+    </AlertState>
+  </GithubState>
+);
 
 export default App;

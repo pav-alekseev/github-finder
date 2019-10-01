@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-const Alert = ({ alert, hideAlert }) => {
+import AlertContext from '../../context/alert/alertContext';
+
+const Alert = () => {
+  const alertContext = useContext(AlertContext);
+
   return (
-    alert && (
+    alertContext.alert && (
       <div
-        className={`alert alert-${alert.type}`}
+        className={`alert alert-${alertContext.alert.type}`}
         style={{ display: 'flex', alignItems: 'center' }}
       >
         <i className="fas fa-info-circle" style={{ marginRight: '0.3rem' }} />
-        {alert.message}
+        {alertContext.alert.message}
         <button className="btn" style={{ marginLeft: 'auto', padding: 0 }}>
-          <i className="far fa-times-circle" onClick={hideAlert} />
+          <i className="far fa-times-circle" onClick={alertContext.hideAlert} />
         </button>
       </div>
     )
