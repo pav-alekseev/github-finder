@@ -17,7 +17,6 @@ import About from './screens/About';
 import './App.css';
 
 const App = () => {
-  const [users, setUsers] = useState([]);
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,10 +54,6 @@ const App = () => {
     setLoading(false);
   };
 
-  const clearUsers = () => {
-    setUsers([]);
-  };
-
   const showAlert = (message, type) => {
     setAlert({ message, type });
 
@@ -81,11 +76,7 @@ const App = () => {
                 render={props => (
                   <Fragment>
                     <Alert alert={alert} hideAlert={hideAlert} />
-                    <Search
-                      clearUsers={clearUsers}
-                      showClear={users.length > 0}
-                      showAlert={showAlert}
-                    />
+                    <Search showAlert={showAlert} />
                     <Users />
                   </Fragment>
                 )}
