@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useContext, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import GithubContext from '../../context/github/githubContext';
@@ -7,11 +6,11 @@ import GithubContext from '../../context/github/githubContext';
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
 
-const User = ({ getUserRepos, repos, match }) => {
+const User = ({ match }) => {
   const githubContext = useContext(GithubContext);
 
   const getUserCallback = useCallback(githubContext.getUser, []);
-  const getUserReposCallback = useCallback(getUserRepos, []);
+  const getUserReposCallback = useCallback(githubContext.getUserRepos, []);
 
   useEffect(() => {
     getUserCallback(match.params.login);
@@ -95,13 +94,9 @@ const User = ({ getUserRepos, repos, match }) => {
           Public Gist: {githubContext.user.public_gists}
         </div>
       </div>
-      <Repos repos={repos} />
+      <Repos repos={githubContext.repos} />
     </Fragment>
   );
-};
-
-User.propTypes = {
-  getUserRepos: PropTypes.func.isRequired,
 };
 
 export default User;
